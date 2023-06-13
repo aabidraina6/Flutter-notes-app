@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "558686518462",
+    "project_id": "opinion-guard",
+    "storage_bucket": "opinion-guard.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:558686518462:android:5174c2a8fa69ab4d7432ef",
+        "android_client_info": {
+          "package_name": "com.example.opinionguard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "558686518462-60e9ibtostg73rh6erap6vmj0n64qqf5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzUiR8QPiOxPp5mUigUErlXH8dQFHivAY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "558686518462-60e9ibtostg73rh6erap6vmj0n64qqf5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
