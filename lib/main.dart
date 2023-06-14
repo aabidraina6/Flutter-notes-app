@@ -51,13 +51,7 @@ class HomePage extends StatelessWidget {
             } else {
               return const LoginView();
             }
-          // if (user?.emailVerified == true) {
-          //   print('you are verified user');
-          // } else {
-          //   print('please verify yourself');
-          //  return const EmailVerificationView();
-          // }
-          // return const Text('Done');
+      
           default:
             return const Center(child: (CircularProgressIndicator()));
         }
