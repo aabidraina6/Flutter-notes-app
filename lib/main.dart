@@ -1,5 +1,4 @@
 // ignore_for_file: avoid_print
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +6,6 @@ import 'package:opinionguard/constants/routes.dart';
 import 'package:opinionguard/views/login_view.dart';
 import 'package:opinionguard/views/register_view.dart';
 import 'package:opinionguard/views/verify_email_view.dart';
-import 'dart:developer' show log;
 
 import 'firebase_options.dart';
 
@@ -28,6 +26,9 @@ void main() {
       },
       notesRoute : (context) {
         return const NotesWidget();
+      },
+      verifyEmailView : (context){
+        return const EmailVerificationView();
       }
 
     },
