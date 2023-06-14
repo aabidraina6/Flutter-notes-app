@@ -24,7 +24,11 @@ void main() {
       },
       '/register': (context) {
         return const RegisterView();
+      },
+      '/notes' : (context) {
+        return const NotesWidget();
       }
+
     },
   ));
 }
