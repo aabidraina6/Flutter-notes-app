@@ -1,6 +1,7 @@
 import 'package:opinionguard/services/auth/auth_user.dart';
 
 abstract class AuthProvider{
+  Future<void> initialize();
   AuthUser? get currentUser; 
   Future<AuthUser> login({
     required String email , 
@@ -12,4 +13,5 @@ abstract class AuthProvider{
   });
   Future<void> logOut();
   Future<void> sendEmailVerification();
+
 }

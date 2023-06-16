@@ -1,8 +1,11 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'dart:developer' show log;
 
 import 'package:opinionguard/constants/routes.dart';
+import 'package:opinionguard/services/auth/auth_exceptions.dart';
+import 'package:opinionguard/services/auth/auth_services.dart';
 import 'package:opinionguard/utilities/show_error_dialog.dart';
 
 class RegisterView extends StatefulWidget {
@@ -55,40 +58,32 @@ class _RegisterViewState extends State<RegisterView> {
                 final email = _email.text;
                 final password = _password.text;
                 try {
-                  await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                  await AuthService.firebase().createUser(
                     email: email,
                     password: password,
                   );
-                  final user = FirebaseAuth.instance.currentUser;
-                 await user?.sendEmailVerification();
-                  Navigator.of(context).pushNamed(verifyEmailView); 
-                } on FirebaseAuthException catch (e) {
-                  if (e.code == 'weak-password') {
-                    await showErrorDialog(
-                      context,
-                      'Weak Password',
-                    );
-                  } else if (e.code == 'email-already-in-use') {
-                    showErrorDialog(
-                      context,
-                      'Email Already in Use',
-                    );
-                  } else if (e.code == 'invalid email') {
-                    showErrorDialog(
-                      context,
-                      'Invalid Email',
-                    );
-                  } else {
-                    showErrorDialog(
-                      context,
-                      'Error: ${e.code}',
-                    );
-                  }
-                } catch (e) {
-                  log(e.toString());
+                  final user = AuthService.firebase().currentUser;
+                  await AuthService.firebase().sendEmailVerification();
+                  Navigator.of(context).pushNamed(verifyEmailView);
+                } on WeakPasswordAuthException {
+                  await showErrorDialog(
+                    context,
+                    'Weak Password',
+                  );
+                } on EmailAlreadyInUseAuthException {
                   showErrorDialog(
                     context,
-                    e.toString(),
+                    'Email Already in Use',
+                  );
+                } on InvalidEmailAuthException {
+                  showErrorDialog(
+                    context,
+                    'Invalid Email',
+                  );
+                } on GenericAuthException {
+                  showErrorDialog(
+                    context,
+                    'Failed to Create User',
                   );
                 }
               },
