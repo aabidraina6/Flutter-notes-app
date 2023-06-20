@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:opinionguard/constants/routes.dart';
 import 'package:opinionguard/services/auth/auth_services.dart';
 import 'package:opinionguard/views/login_view.dart';
+import 'package:opinionguard/views/notes/new_notes_view.dart';
 import 'package:opinionguard/views/register_view.dart';
 import 'package:opinionguard/views/verify_email_view.dart';
-import 'notes_view.dart';
+import 'views/notes/notes_view.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,6 +28,9 @@ void main() {
       },
       verifyEmailView: (context) {
         return const EmailVerificationView();
+      },
+      newNotesRoute :(context) {
+        return const NewnoteView();
       }
     },
   ));

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:opinionguard/services/auth/auth_services.dart';
 import 'package:opinionguard/services/crud/notes_service.dart';
-import 'constants/routes.dart';
-import 'enums/menu_action.dart';
+import '../../constants/routes.dart';
+import '../../enums/menu_action.dart';
 
 class NotesWidget extends StatefulWidget {
   const NotesWidget({super.key});
@@ -31,8 +31,13 @@ class _NotesWidgetState extends State<NotesWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Main UI'),
+        title: const Text('Your Notes'),
         actions: [
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(newNotesRoute);
+              },
+              icon: const Icon(Icons.add)),
           PopupMenuButton<MenuAction>(
             onSelected: (value) async {
               switch (value) {
@@ -52,7 +57,7 @@ class _NotesWidgetState extends State<NotesWidget> {
                     value: MenuAction.logout, child: Text('Log Out'))
               ]);
             },
-          )
+          ),
         ],
       ),
       body: FutureBuilder(
@@ -63,14 +68,11 @@ class _NotesWidgetState extends State<NotesWidget> {
               return StreamBuilder(
                 stream: _notesService.allNotes,
                 builder: (context, snapshot) {
-                  switch(snapshot.connectionState){
-                    
-
+                  switch (snapshot.connectionState) {
                     case ConnectionState.waiting:
-                    return const Text('waiting for all notes');
+                      return const Text('waiting for all notes');
                     default:
-                    return const CircularProgressIndicator();
-                  
+                      return const CircularProgressIndicator();
                   }
                 },
               );
