@@ -31,7 +31,7 @@ class _NotesWidgetState extends State<NotesWidget> {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.of(context).pushNamed(newNotesRoute);
+                Navigator.of(context).pushNamed(createOrUpdateNoteRoute);
               },
               icon: const Icon(Icons.add)),
           PopupMenuButton<MenuAction>(
@@ -73,6 +73,12 @@ class _NotesWidgetState extends State<NotesWidget> {
                           notes: allNotes,
                           onDeleteNote: (note) async {
                             await _notesService.deleteNote(id: note.id);
+                          },
+                          onTap: (note) async {
+                            Navigator.of(context).pushNamed(
+                              createOrUpdateNoteRoute,
+                              arguments: note,
+                            );
                           },
                         );
                       } else {
