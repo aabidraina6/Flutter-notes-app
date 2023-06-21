@@ -1,12 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'dart:developer' show log;
 
 import 'package:opinionguard/constants/routes.dart';
 import 'package:opinionguard/services/auth/auth_exceptions.dart';
 import 'package:opinionguard/services/auth/auth_services.dart';
-import 'package:opinionguard/utilities/show_error_dialog.dart';
+
+import '../utilities/dialogs/error_dialog.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
