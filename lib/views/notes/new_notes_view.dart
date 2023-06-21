@@ -86,7 +86,12 @@ class _NewnoteViewState extends State<NewnoteView> {
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
-              _note = snapshot.data ; // add as DatabaseNote (typecast)
+              if (snapshot.hasData && snapshot.data != null) {
+                _note = snapshot.data as DatabaseNote;
+              } //todo: add as DatabaseNote (typecast)
+              else {
+                return const Text("Error getting data");
+              }
               _setupTextControllerListner();
               return TextField(
                 controller: _textController,

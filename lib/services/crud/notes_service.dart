@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' show join;
@@ -10,11 +11,17 @@ class NotesService {
   List<DatabaseNote> _notes = [];
 
   static final NotesService _shared = NotesService._sharedInstance();
-  NotesService._sharedInstance();
+  NotesService._sharedInstance() {
+    _notesStreamController = StreamController<List<DatabaseNote>>.broadcast(
+      onListen: () {
+        _notesStreamController.sink.add(_notes);
+      },
+    );
+  }
+
   factory NotesService() => _shared;
 
-  final _notesStreamController =
-      StreamController<List<DatabaseNote>>.broadcast();
+  late final StreamController<List<DatabaseNote>> _notesStreamController;
 
   Stream<List<DatabaseNote>> get allNotes => _notesStreamController.stream;
 
@@ -23,12 +30,11 @@ class NotesService {
       final user = await getUser(email: email);
       return user;
     } on CouldNotFindUser {
-      final createdUser = await createUser(email:email );
+      final createdUser = await createUser(email: email);
       return createdUser;
-    }catch(e){
-        rethrow;
+    } catch (e) {
+      rethrow;
     }
-  
   }
 
   Future<void> _cacheNotes() async {
@@ -121,7 +127,6 @@ class NotesService {
 
   Future<DatabaseNote> createNote({required DatabaseUser owner}) async {
     await _ensureDbIsOpen();
-
     final db = _getDatabaseOrThrow();
 
     // make sure owner exists in the database with the correct id
@@ -133,7 +138,7 @@ class NotesService {
     const text = '';
 
     // create the note
-
+    print('here');
     final noteId = await db.insert(
       notesTable,
       {
@@ -228,15 +233,17 @@ class NotesService {
     }
   }
 
-  Future<void> _ensureDbIsOpen()async{
-    try{
+  Future<void> _ensureDbIsOpen() async {
+    try {
       await open();
-    } on DatabaseAlreadyOpenException{
-
+    } on DatabaseAlreadyOpenException {
+      //empty
     }
   }
 
   Future<void> open() async {
+    print('open fn called');
+
     if (_db != null) {
       throw DatabaseAlreadyOpenException();
     }
@@ -245,10 +252,15 @@ class NotesService {
       final dbPath = join(docsPath.path, dbName);
       final db = await openDatabase(dbPath);
       _db = db;
+      await db.execute(createNoteTable);
+
+      print("note table created");
 
       await db.execute(createUserTable);
 
-      await db.execute(createNoteTable);
+
+      print('user table created');
+      
       await _cacheNotes();
     } on MissingPlatformDirectoryException {
       throw UnableToGetDocumentsDirectory();
@@ -256,6 +268,7 @@ class NotesService {
   }
 }
 
+@immutable
 class DatabaseUser {
   final int id;
   final String email;
@@ -312,7 +325,7 @@ class DatabaseNote {
 }
 
 const dbName = 'notes.db';
-const notesTable = 'notes';
+const notesTable = 'note';
 const userTable = 'user';
 const idColumn = 'id';
 const emailColumn = 'email';
@@ -323,16 +336,16 @@ const createUserTable = '''
 CREATE TABLE IF NOT EXISTS "user"  (
   "id" INTEGER NOT NULL,
   "email" TEXT NOT NULL UNIQUE,
-  PRIMARY KEY("id" , AUTOINCREMENT)
+  PRIMARY KEY("id"  AUTOINCREMENT)
 );
 ''';
+
 const createNoteTable = '''
-CREATE TABLE IF NOT EXISTS "notes"  (
-  "id" INTEGER NOT NULL,
-  "user_id" INTEGER NOT NULL,
-  "text" TEXT,
-  "is_synced_with_cloud" INTEGER NOT NULL DEFAULT 0,
-  FOREIGN KEY("user_id") REFERENCES "user("id")",
-  PRIMARY KEY("id" , AUTOINCREMENT)
-);
-''';
+CREATE TABLE IF NOT EXISTS "note" (
+        "id"	INTEGER NOT NULL,
+        "user_id"	INTEGER NOT NULL,
+        "text"	TEXT,
+        "is_synced_with_cloud"	INTEGER NOT NULL DEFAULT 0,
+        FOREIGN KEY("user_id") REFERENCES "user"("id"),
+        PRIMARY KEY("id" AUTOINCREMENT)
+      );''';
