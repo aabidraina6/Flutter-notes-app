@@ -163,7 +163,6 @@ class NotesService {
     const text = '';
 
     // create the note
-    print('here');
     final noteId = await db.insert(
       notesTable,
       {
@@ -267,7 +266,6 @@ class NotesService {
   }
 
   Future<void> open() async {
-    print('open fn called');
 
     if (_db != null) {
       throw DatabaseAlreadyOpenException();
@@ -279,11 +277,9 @@ class NotesService {
       _db = db;
       await db.execute(createNoteTable);
 
-      print("note table created");
 
       await db.execute(createUserTable);
 
-      print('user table created');
 
       await _cacheNotes();
     } on MissingPlatformDirectoryException {

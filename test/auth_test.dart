@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:opinionguard/views/notes/notes_view.dart';
 import 'package:opinionguard/services/auth/auth_exceptions.dart';
 import 'package:opinionguard/services/auth/auth_provider.dart';
 import 'package:opinionguard/services/auth/auth_user.dart';

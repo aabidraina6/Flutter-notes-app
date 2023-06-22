@@ -4,6 +4,7 @@ import 'package:opinionguard/services/crud/notes_service.dart';
 import 'package:opinionguard/views/notes/notes_list_view.dart';
 import '../../constants/routes.dart';
 import '../../enums/menu_action.dart';
+import '../../main.dart';
 import '../../utilities/dialogs/logout_dialog.dart';
 
 class NotesWidget extends StatefulWidget {
@@ -41,8 +42,8 @@ class _NotesWidgetState extends State<NotesWidget> {
                   final shouldLogOut = await showLogOutDialog(context);
                   if (shouldLogOut) {
                     await AuthService.firebase().logOut();
-                    Navigator.of(context)
-                        .pushNamedAndRemoveUntil(loginRoute, (_) => false);
+                    Navigator.pushNamedAndRemoveUntil(
+                        navigatorKey.currentContext!, loginRoute, (_) => false);
                   }
                   break;
               }

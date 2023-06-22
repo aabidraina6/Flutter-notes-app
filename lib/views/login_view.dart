@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:opinionguard/constants/routes.dart';
 import 'package:opinionguard/services/auth/auth_exceptions.dart';
 import 'package:opinionguard/services/auth/auth_services.dart';
+import '../main.dart';
 import '../utilities/dialogs/error_dialog.dart';
 
 class LoginView extends StatefulWidget {
@@ -61,12 +62,14 @@ class _LoginViewState extends State<LoginView> {
                   );
                   final user = AuthService.firebase().currentUser;
                   if (user?.isEmailVerified ?? false) {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
+                    Navigator.pushNamedAndRemoveUntil(
+                      navigatorKey.currentContext! , 
                       notesRoute,
                       (route) => false,
                     );
                   } else {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
+                    Navigator.pushNamedAndRemoveUntil(
+                      navigatorKey.currentContext! , 
                       verifyEmailView,
                       (route) => false,
                     );

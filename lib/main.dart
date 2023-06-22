@@ -8,6 +8,8 @@ import 'package:opinionguard/views/register_view.dart';
 import 'package:opinionguard/views/verify_email_view.dart';
 import 'views/notes/notes_view.dart';
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MaterialApp(
