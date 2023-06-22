@@ -266,7 +266,6 @@ class NotesService {
   }
 
   Future<void> open() async {
-
     if (_db != null) {
       throw DatabaseAlreadyOpenException();
     }
@@ -277,9 +276,7 @@ class NotesService {
       _db = db;
       await db.execute(createNoteTable);
 
-
       await db.execute(createUserTable);
-
 
       await _cacheNotes();
     } on MissingPlatformDirectoryException {
