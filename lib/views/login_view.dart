@@ -5,6 +5,7 @@ import 'package:opinionguard/constants/routes.dart';
 import 'package:opinionguard/services/auth/auth_exceptions.dart';
 import 'package:opinionguard/services/auth/bloc/auth_bloc.dart';
 import 'package:opinionguard/services/auth/bloc/auth_event.dart';
+import '../services/auth/bloc/auth_state.dart';
 import '../utilities/dialogs/error_dialog.dart';
 
 class LoginView extends StatefulWidget {
@@ -52,33 +53,38 @@ class _LoginViewState extends State<LoginView> {
             enableSuggestions: false,
             autocorrect: false,
           ),
-          TextButton(
-              onPressed: () async {
-                final email = _email.text;
-                final password = _password.text;
-                try {
-                  context.read<AuthBloc>().add(AuthEventLogIn(
-                        email,
-                        password,
-                      ));
-                } on UserNotFoundAuthException {
+          BlocListener<AuthBloc, AuthState>(
+            listener: (context, state) async {
+              if (state is AuthStateLoggedOut) {
+                if (state.exception is UserNotFoundAuthException) {
                   await showErrorDialog(
                     context,
                     'User Not Found',
                   );
-                } on WrongPasswordAuthException {
+                } else if (state.exception is WrongPasswordAuthException) {
                   await showErrorDialog(
                     context,
                     'Wrong Credentials',
                   );
-                } on GenericAuthException {
+                } else if (state.exception is GenericAuthException) {
                   await showErrorDialog(
                     context,
                     'Authentication Error',
                   );
                 }
-              },
-              child: const Text("Login")),
+              }
+            },
+            child: TextButton(
+                onPressed: () async {
+                  final email = _email.text;
+                  final password = _password.text;
+                  context.read<AuthBloc>().add(AuthEventLogIn(
+                        email,
+                        password,
+                      ));
+                },
+                child: const Text("Login")),
+          ),
           TextButton(
               onPressed: () {
                 Navigator.of(context).pushNamedAndRemoveUntil(
