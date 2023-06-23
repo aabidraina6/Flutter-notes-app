@@ -1,9 +1,10 @@
 // ignore_for_file: avoid_log
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:opinionguard/constants/routes.dart';
 import 'package:opinionguard/services/auth/auth_exceptions.dart';
-import 'package:opinionguard/services/auth/auth_services.dart';
-import '../main.dart';
+import 'package:opinionguard/services/auth/bloc/auth_bloc.dart';
+import 'package:opinionguard/services/auth/bloc/auth_event.dart';
 import '../utilities/dialogs/error_dialog.dart';
 
 class LoginView extends StatefulWidget {
@@ -56,22 +57,10 @@ class _LoginViewState extends State<LoginView> {
                 final email = _email.text;
                 final password = _password.text;
                 try {
-                  await AuthService.firebase().login(
-                    email: email,
-                    password: password,
-                  );
-                  final user = AuthService.firebase().currentUser;
-                  if (user?.isEmailVerified ?? false) {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      notesRoute,
-                      (route) => false,
-                    );
-                  } else {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      verifyEmailView,
-                      (route) => false,
-                    );
-                  }
+                  context.read<AuthBloc>().add(AuthEventLogIn(
+                        email,
+                        password,
+                      ));
                 } on UserNotFoundAuthException {
                   await showErrorDialog(
                     context,
