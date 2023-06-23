@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:opinionguard/constants/routes.dart';
-import 'package:opinionguard/services/auth/auth_services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:opinionguard/services/auth/bloc/auth_bloc.dart';
+import 'package:opinionguard/services/auth/bloc/auth_event.dart';
 
 class EmailVerificationView extends StatefulWidget {
   const EmailVerificationView({super.key});
@@ -25,18 +26,15 @@ class _EmailVerificationViewState extends State<EmailVerificationView> {
             "if you have'nt recieved an email yet please press the button",
           ),
           TextButton(
-              onPressed: () async {
-                final user = AuthService.firebase().currentUser;
-                await AuthService.firebase().sendEmailVerification();
+              onPressed: () {
+                context
+                    .read<AuthBloc>()
+                    .add(const AuthEventSendEmailVerification());
               },
               child: const Text('Verify Email')),
           TextButton(
             onPressed: () {
-              AuthService.firebase().logOut();
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                registerRoute,
-                (route) => false,
-              );
+              context.read<AuthBloc>().add(const AuthEventLogOut());
             },
             child: const Text('Restart'),
           )

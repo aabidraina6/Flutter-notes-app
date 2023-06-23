@@ -4,11 +4,9 @@ import 'package:opinionguard/services/auth/auth_services.dart';
 import 'package:opinionguard/services/auth/bloc/auth_event.dart';
 import 'package:opinionguard/services/cloud/cloud_note.dart';
 import 'package:opinionguard/services/cloud/firebase_cloud_storage.dart';
-import 'package:opinionguard/services/crud/notes_service.dart';
 import 'package:opinionguard/views/notes/notes_list_view.dart';
 import '../../constants/routes.dart';
 import '../../enums/menu_action.dart';
-import '../../main.dart';
 import '../../services/auth/bloc/auth_bloc.dart';
 import '../../utilities/dialogs/logout_dialog.dart';
 
