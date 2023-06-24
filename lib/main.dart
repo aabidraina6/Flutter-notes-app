@@ -7,6 +7,7 @@ import 'package:opinionguard/services/auth/bloc/auth_bloc.dart';
 import 'package:opinionguard/services/auth/bloc/auth_event.dart';
 import 'package:opinionguard/services/auth/bloc/auth_state.dart';
 import 'package:opinionguard/services/auth/firebase_auth_provider.dart';
+import 'package:opinionguard/views/forgot_password_view.dart';
 import 'package:opinionguard/views/login_view.dart';
 import 'package:opinionguard/views/notes/create_update_note_view.dart';
 import 'package:opinionguard/views/register_view.dart';
@@ -56,7 +57,10 @@ class HomePage extends StatelessWidget {
           return const EmailVerificationView();
         } else if (state is AuthStateLoggedOut) {
           return const LoginView();
-        } else if (state is AuthStateRegistering) {
+        } else if(state is AuthStateForgetPassword){
+          return const ForgotPasswordView();
+        }
+        else if (state is AuthStateRegistering) {
           return const RegisterView();
         } else {
           return const Scaffold(
