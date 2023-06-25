@@ -1,16 +1,20 @@
-# opinionguard
+# My Notes App
 
-A new Flutter project.
+A flutter app where you can store your notes in the cloud.
 
-## Getting Started
+# Getting Started
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Libraries Used
+- [firebase_auth](https://pub.dev/packages/firebase_auth)
+- [firebase_core](https://pub.dev/packages/firebase_core)
+- [cloud_firestore](https://pub.dev/packages/cloud_firestore)
+- [share_plus](https://pub.dev/packages/share_plus)
+- [bloc](https://pub.dev/packages/bloc)
+- [flutter_bloc](https://pub.dev/packages/flutter_bloc)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Key Features
+- Users can create , delete , update , retrieve and share their using this app.
+- The UI and the business Logic (backend logic) is separated using `Bloc`.
+- `firebase` is used for user authentication and storing user notes.
