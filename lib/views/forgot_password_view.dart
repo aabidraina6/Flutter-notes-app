@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:opinionguard/services/auth/bloc/auth_bloc.dart';
@@ -52,32 +51,34 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              const Text(
-                  'If you forgot your password , simply enter your email and we will send you an email where you can reset the password'),
-              TextField(
-                keyboardType: TextInputType.emailAddress,
-                autocorrect: false,
-                autofocus: true,
-                controller: _controller,
-                decoration:
-                    const InputDecoration(hintText: 'Your email address....'),
-              ),
-              TextButton(
-                  onPressed: () {
-                    final email = _controller.text;
-                    context
-                        .read<AuthBloc>()
-                        .add(AuthEventForgotPassword(email: email));
-                  },
-                  child: const Text('Send Password Reset Link')),
-              TextButton(
-                  onPressed: () {
-                    context.read<AuthBloc>().add(const AuthEventLogOut());
-                  },
-                  child: const Text('Back to Login Page')),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const Text(
+                    'If you forgot your password , simply enter your email and we will send you an email where you can reset the password'),
+                TextField(
+                  keyboardType: TextInputType.emailAddress,
+                  autocorrect: false,
+                  autofocus: true,
+                  controller: _controller,
+                  decoration:
+                      const InputDecoration(hintText: 'Your email address....'),
+                ),
+                TextButton(
+                    onPressed: () {
+                      final email = _controller.text;
+                      context
+                          .read<AuthBloc>()
+                          .add(AuthEventForgotPassword(email: email));
+                    },
+                    child: const Text('Send Password Reset Link')),
+                TextButton(
+                    onPressed: () {
+                      context.read<AuthBloc>().add(const AuthEventLogOut());
+                    },
+                    child: const Text('Back to Login Page')),
+              ],
+            ),
           ),
         ),
       ),
